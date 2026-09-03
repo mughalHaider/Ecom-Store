@@ -9,8 +9,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
-import "swiper/css/navigation";
 import { useCart } from "../../context/CartContext";
+import { useCurrency } from "../../context/CurrencyContext";
 
 export default function ProductDetailPage({
   params,
@@ -18,6 +18,7 @@ export default function ProductDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
+  const { formatPrice } = useCurrency();
   const product = getProductById(Number(id));
 
   const [activeImg, setActiveImg] = useState(0);
@@ -274,7 +275,7 @@ export default function ProductDetailPage({
             {/* Price */}
             <div className="flex items-baseline gap-3 border-y border-black/15 py-4">
               <span className="text-3xl font-black text-black tracking-tight">
-                {product.price}
+                {formatPrice(product.price)}
               </span>
               <span className="text-[10px] font-mono text-stone-500 uppercase tracking-[0.12em]">
                 Incl. VAT
@@ -428,7 +429,7 @@ export default function ProductDetailPage({
                     <h3 className="text-[9.5px] font-black tracking-[0.12em] uppercase text-black line-clamp-1">
                       {rel.title}
                     </h3>
-                    <p className="text-[11px] font-bold text-black">{rel.price}</p>
+                    <p className="text-[11px] font-bold text-black">{formatPrice(rel.price)}</p>
                   </div>
                 </Link>
               ))}

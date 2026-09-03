@@ -5,8 +5,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { X, ShoppingBag, Bookmark } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useCurrency } from "../context/CurrencyContext";
 
 export default function BagDrawer() {
+  const { formatPrice } = useCurrency();
   const {
     isCartOpen,
     closeCart,
@@ -27,26 +29,23 @@ export default function BagDrawer() {
 
   return (
     <div
-      className={`fixed inset-0 z-50 transition-visibility duration-300 ${
-        isCartOpen ? "visible pointer-events-auto" : "invisible pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-50 transition-visibility duration-300 ${isCartOpen ? "visible pointer-events-auto" : "invisible pointer-events-none"
+        }`}
       role="dialog"
       aria-modal="true"
       aria-label="Shopping Bag Sidebar"
     >
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 ease-in-out ${
-          isCartOpen ? "opacity-100" : "opacity-0"
-        }`}
+        className={`fixed inset-0 bg-black/50 backdrop-blur-[2px] transition-opacity duration-300 ease-in-out ${isCartOpen ? "opacity-100" : "opacity-0"
+          }`}
         onClick={closeCart}
       />
 
       {/* Sidebar Panel */}
       <aside
-        className={`fixed top-0 right-0 h-full w-full max-w-[440px] bg-white text-black flex flex-col z-10 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] transform ${
-          isCartOpen ? "translate-x-0" : "translate-x-full"
-        }`}
+        className={`fixed top-0 right-0 h-full w-full max-w-[440px] bg-white text-black flex flex-col z-10 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] transform ${isCartOpen ? "translate-x-0" : "translate-x-full"
+          }`}
       >
         {/* ─── Top Header Bar ─── */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-black">
@@ -61,11 +60,10 @@ export default function BagDrawer() {
               type="button"
               onClick={() => setActiveTab("bag")}
               aria-label="View shopping bag"
-              className={`w-9 h-8 flex items-center justify-center transition-colors cursor-pointer ${
-                activeTab === "bag"
+              className={`w-9 h-8 flex items-center justify-center transition-colors cursor-pointer ${activeTab === "bag"
                   ? "bg-[#dedede] text-black"
                   : "bg-white text-stone-600 hover:bg-stone-50"
-              }`}
+                }`}
             >
               <ShoppingBag size={17} strokeWidth={1.5} />
             </button>
@@ -74,11 +72,10 @@ export default function BagDrawer() {
               type="button"
               onClick={() => setActiveTab("saved")}
               aria-label="View saved items"
-              className={`w-9 h-8 flex items-center justify-center transition-colors cursor-pointer ${
-                activeTab === "saved"
+              className={`w-9 h-8 flex items-center justify-center transition-colors cursor-pointer ${activeTab === "saved"
                   ? "bg-[#dedede] text-black"
                   : "bg-white text-stone-600 hover:bg-stone-50"
-              }`}
+                }`}
             >
               <Bookmark size={17} strokeWidth={1.5} />
             </button>
@@ -100,7 +97,7 @@ export default function BagDrawer() {
           <p className="text-[11px] sm:text-xs font-bold tracking-[0.12em] text-center text-black uppercase mb-2.5">
             {qualifiesForFreeDelivery
               ? "YOUR ORDER QUALIFIES FOR FREE DELIVERY"
-              : `ADD £${(freeDeliveryThreshold - subtotal).toFixed(2)} MORE FOR FREE DELIVERY`}
+              : `ADD ${formatPrice(Math.max(0, freeDeliveryThreshold - subtotal))} MORE FOR FREE DELIVERY`}
           </p>
           {/* Framed Progress Bar */}
           <div className="w-full h-3 border border-black bg-white p-[1.5px] overflow-hidden">
@@ -156,7 +153,7 @@ export default function BagDrawer() {
                             {item.title}
                           </h3>
                           <span className="text-xs sm:text-[13px] font-bold text-black shrink-0">
-                            £{(item.price * item.quantity).toFixed(2)}
+                            {formatPrice(item.price * item.quantity)}
                           </span>
                         </div>
 
@@ -259,7 +256,7 @@ export default function BagDrawer() {
                             {item.title}
                           </h3>
                           <span className="text-xs sm:text-[13px] font-bold text-black shrink-0">
-                            £{item.price.toFixed(2)}
+                            {formatPrice(item.price)}
                           </span>
                         </div>
                         <p className="text-[10px] sm:text-[11px] font-semibold tracking-[0.08em] text-stone-600 uppercase mt-1">
@@ -296,7 +293,7 @@ export default function BagDrawer() {
           <div className="border-t border-black/10 p-6 bg-white space-y-3">
             <div className="flex items-center justify-between text-xs font-bold tracking-[0.14em] uppercase text-black">
               <span>SUBTOTAL</span>
-              <span>£{subtotal.toFixed(2)}</span>
+              <span>{formatPrice(subtotal)}</span>
             </div>
             <p className="text-[10.5px] text-stone-500 uppercase tracking-wider text-center">
               Shipping &amp; taxes calculated at checkout
@@ -305,7 +302,7 @@ export default function BagDrawer() {
               type="button"
               className="w-full bg-black hover:bg-[#1a1a1a] text-white py-3.5 px-4 text-xs font-black tracking-[0.18em] uppercase transition-colors cursor-pointer shadow-xs active:scale-[0.99]"
             >
-              CHECKOUT • £{subtotal.toFixed(2)}
+              CHECKOUT • {formatPrice(subtotal)}
             </button>
           </div>
         )}

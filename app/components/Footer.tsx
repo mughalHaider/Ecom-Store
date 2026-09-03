@@ -217,7 +217,7 @@ export default function Footer() {
             {/* Country Selector */}
             <div className="flex flex-col items-start sm:items-end justify-between self-end sm:self-auto space-y-2">
               <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-white/20 hover:border-white text-[11px] font-mono uppercase tracking-[0.14em] transition-colors cursor-pointer bg-black/40">
-                <span>COUNTRY: 🇬🇧 GB (£/GBP)</span>
+                <span>COUNTRY: 🇳🇬 NG (₦/NGN)</span>
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ export const allProducts: ProductItem[] = [
     id: 1,
     title: "IMOLEAYO BOMBER JACKET – SUNSET EMBER",
     category: "mens",
-    price: "£200",
+    price: "₦200",
     isNew: true,
     isTrending: true,
     images: [
@@ -40,7 +40,7 @@ export const allProducts: ProductItem[] = [
     id: 2,
     title: "IMOLEAYO SUIT – BOLD STRIPE",
     category: "mens",
-    price: "£200",
+    price: "₦200",
     isNew: true,
     isTrending: true,
     images: [
@@ -59,7 +59,7 @@ export const allProducts: ProductItem[] = [
     id: 3,
     title: "IMOLEAYO SUIT – CLASSIC WEAVE",
     category: "mens",
-    price: "£200",
+    price: "₦200",
     isNew: true,
     isTrending: false,
     images: [
@@ -78,7 +78,7 @@ export const allProducts: ProductItem[] = [
     id: 4,
     title: "IMOLEAYO ADIRE SHIRT – SUN PATTERN",
     category: "mens",
-    price: "£70",
+    price: "₦70",
     isNew: true,
     isTrending: true,
     images: [
@@ -97,7 +97,7 @@ export const allProducts: ProductItem[] = [
     id: 5,
     title: "IMOLEAYO PANTS – CLASSIC WEAVE",
     category: "mens",
-    price: "£70",
+    price: "₦70",
     isNew: true,
     isTrending: false,
     images: [
@@ -116,7 +116,7 @@ export const allProducts: ProductItem[] = [
     id: 6,
     title: "TEMIDAYO CARGO PANT",
     category: "mens",
-    price: "£100",
+    price: "₦100",
     isNew: true,
     isTrending: true,
     images: [
@@ -135,7 +135,7 @@ export const allProducts: ProductItem[] = [
     id: 7,
     title: "TEMIDAYO JACKET",
     category: "mens",
-    price: "£200",
+    price: "₦200",
     isNew: false,
     isTrending: true,
     images: [
@@ -154,7 +154,7 @@ export const allProducts: ProductItem[] = [
     id: 8,
     title: "ASO ALARABARA SAFARI JACKET ( MULTICOLOURED )",
     category: "mens",
-    price: "£200",
+    price: "₦200",
     isNew: false,
     isTrending: true,
     images: [
@@ -174,7 +174,7 @@ export const allProducts: ProductItem[] = [
     id: 9,
     title: "4D CULTURE CO-ORD SET",
     category: "womens",
-    price: "£80",
+    price: "₦80",
     isNew: false,
     isTrending: true,
     images: [
@@ -194,7 +194,7 @@ export const allProducts: ProductItem[] = [
     id: 10,
     title: "Imoleayo Adire Ruffle Crop Set",
     category: "womens",
-    price: "£70",
+    price: "₦70",
     isNew: true,
     isTrending: true,
     images: [
@@ -214,7 +214,7 @@ export const allProducts: ProductItem[] = [
     id: 11,
     title: "4D Culture Traveling Bag",
     category: "mens",
-    price: "£100",
+    price: "₦100",
     isNew: false,
     isTrending: true,
     images: [
@@ -233,7 +233,7 @@ export const allProducts: ProductItem[] = [
     id: 12,
     title: "4D Culture Fila",
     category: "mens",
-    price: "£20",
+    price: "₦20",
     isNew: false,
     isTrending: true,
     images: [
@@ -253,7 +253,7 @@ export const allProducts: ProductItem[] = [
     id: 13,
     title: "Aso oke embroidery agbada",
     category: "mens",
-    price: "£400",
+    price: "₦400",
     isNew: false,
     isTrending: true,
     images: [

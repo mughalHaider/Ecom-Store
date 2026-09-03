@@ -38,14 +38,14 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 const INITIAL_CART_ITEMS: CartItem[] = [
   {
-    id: "bella-dress-1",
-    productId: 2,
-    title: "BELLA REVERSIBLE MINI DENIM DRESS - PLAID & RAW INDIGO",
-    price: 95.0,
-    image: "/products/p4.jpg",
-    size: "10",
-    style: "REVERSIBLE",
-    quantity: 2,
+    id: "1-M",
+    productId: 1,
+    title: "IMOLEAYO BOMBER JACKET – SUNSET EMBER",
+    price: 200.0,
+    image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/Gemini_Generated_Image_1e3nxp1e3nxp1e3n.png",
+    size: "M",
+    style: "STANDARD",
+    quantity: 1,
     isSaved: false,
   },
 ];

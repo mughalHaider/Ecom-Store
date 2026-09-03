@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 import { Autoplay } from "swiper/modules";
+import { useCurrency } from "../context/CurrencyContext";
 
 // Swiper styles
 import "swiper/css";
@@ -28,7 +29,7 @@ const features: FeatureItem[] = [
   {
     id: 3,
     title: "FREE WORLDWIDE DELIVERY",
-    description: "Free worldwide delivery on all orders over £80",
+    description: "Free worldwide delivery on all orders over ₦100",
   },
   {
     id: 4,
@@ -39,6 +40,7 @@ const features: FeatureItem[] = [
 ];
 
 export default function TrustFeatures() {
+  const { formatPrice } = useCurrency();
   const [activeSlide, setActiveSlide] = useState(0);
   const [mobileSwiper, setMobileSwiper] = useState<SwiperType | null>(null);
 
@@ -74,7 +76,9 @@ export default function TrustFeatures() {
 
                 {/* Description */}
                 <p className="font-mono text-xs sm:text-sm text-stone-800 leading-relaxed max-w-[260px]">
-                  {item.description}
+                  {item.id === 3
+                    ? `Free worldwide delivery on all orders over ${formatPrice(100)}`
+                    : item.description}
                 </p>
 
                 {/* Information Circle Icon */}
@@ -121,7 +125,9 @@ export default function TrustFeatures() {
 
             {/* Description */}
             <p className="font-mono text-xs md:text-sm text-stone-700 leading-relaxed max-w-[270px] my-4">
-              {item.description}
+              {item.id === 3
+                ? `Free worldwide delivery on all orders over ${formatPrice(100)}`
+                : item.description}
             </p>
 
             {/* Information Circle Icon */}

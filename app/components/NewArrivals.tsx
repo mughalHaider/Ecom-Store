@@ -13,10 +13,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 
 import { allProducts, type ProductItem } from "../lib/products";
+import { useCurrency } from "../context/CurrencyContext";
 
 const productsData: ProductItem[] = allProducts;
 
 function ProductCard({ product }: { product: ProductItem }) {
+  const { formatPrice } = useCurrency();
   const [activeImgIdx, setActiveImgIdx] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [innerSwiper, setInnerSwiper] = useState<SwiperType | null>(null);
@@ -177,7 +179,7 @@ function ProductCard({ product }: { product: ProductItem }) {
         {/* Price & Quick Add */}
         <div className="flex items-center justify-between pt-0.5">
           <span className="text-[12px] font-bold text-black tracking-tight font-sans">
-            {product.price}
+            {formatPrice(product.price)}
           </span>
           <span className="text-[10px] font-black tracking-[0.16em] uppercase text-[#8f6f4d]">
             VIEW →
