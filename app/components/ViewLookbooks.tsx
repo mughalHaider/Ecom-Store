@@ -15,27 +15,27 @@ interface LookbookArticle {
 const articles: LookbookArticle[] = [
   {
     id: 1,
-    title: "AUTUMN STYLING",
+    title: "4D CULTURE CAMPAIGN",
     image: "https://pappyneedles.co.uk/wp-content/uploads/2026/03/IMG-20260301-WA0059.jpg",
-    href: "#autumn-styling",
+    href: "#4d-culture-campaign",
     description:
-      "We took our latest autumn collection to the streets of London, shooting just around the corner from our Spitalfields store to show the collection as it was designed to be worn. Styled in layers and brought together through different textures, colours and shapes, the shoot puts the collection into action......",
+      "A celebration of collective identity and contemporary Afrocentric streetwear. Shot on location, our latest 4D Culture campaign explores bold structured outerwear, relaxed bomber silhouettes, and signature handwoven Aso-Oke accessories designed for modern everyday utility......",
   },
   {
     id: 2,
-    title: "MT. REGENT NATURE RESERVE",
+    title: "ASO-OKE CRAFTSMANSHIP",
     image: "https://pappyneedles.co.uk/wp-content/uploads/2026/01/IMG-20260120-WA0022.jpg",
-    href: "#mt-regent",
+    href: "#aso-oke-craftsmanship",
     description:
-      "28.08.26 | Our autumn collection takes inspiration from the landscapes of the great outdoors. Taking its roots from heritage workwear and traditional outdoor clothing, it brings together hardwearing ripstop, waxed canvas, heavyweight denim, brushed flannel and textured knits, built around the layers needed as the seasons change....",
+      "Rooted in generations of West African artisanal weaving, our signature backpack blends hand-loomed indigo and terracotta Aso-Oke textiles with genuine leather flap closures and custom brass hardware, built to endure every journey......",
   },
   {
     id: 3,
-    title: "P&CO SAILING CLUB",
+    title: "ARTISAN WOVEN GOODS",
     image: "https://pappyneedles.co.uk/wp-content/uploads/2026/01/IMG-20260120-WA00731.jpg",
-    href: "#sailing-club",
+    href: "#artisan-woven-goods",
     description:
-      "31.07.26 | This collection marks the transition into the months ahead. Still inspired by the coast, this campaign moves beyond summer, introducing hardwearing canvas, hickory stripe, heavyweight denim and soft flannel alongside lighter transitional layers designed to carry you into the new season....",
+      "Meticulously handcrafted from natural coiled fiber, this statement basket bag highlights sculptural texture and raw minimalist elegance. Finished with dual reinforced handles and our engraved 4D Culture wooden brand plate......",
   },
 ];
 
