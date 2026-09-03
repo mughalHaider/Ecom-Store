@@ -17,7 +17,10 @@ export async function middleware(request: NextRequest) {
   try {
     const forwardedFor = request.headers.get('x-forwarded-for');
     const realIp = request.headers.get('x-real-ip');
-    const clientIp = forwardedFor ? forwardedFor.split(',')[0].trim() : (realIp || request.ip);
+    const netlifyIp = request.headers.get('x-nf-client-connection-ip');
+    const clientIp = forwardedFor
+      ? forwardedFor.split(',')[0].trim()
+      : (realIp || netlifyIp || request.headers.get('client-ip') || null);
 
     // In local dev or private subnet, query ipwho.is without an IP to get public IP
     const url = isLocalOrPrivateIp(clientIp)
