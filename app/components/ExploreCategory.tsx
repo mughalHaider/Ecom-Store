@@ -15,19 +15,19 @@ const categories: CategoryCard[] = [
   {
     id: 1,
     title: "MEN'S",
-    image: "/category/c1.jpg",
+    image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-15-at-9.43.13-AM.jpeg",
     href: "#mens",
   },
   {
     id: 2,
     title: "WOMEN'S",
-    image: "/category/c2.jpg",
+    image: "https://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-15-at-6.32.56-PM.jpeg",
     href: "#womens",
   },
   {
     id: 3,
     title: "GOODS",
-    image: "/category/c3.jpg",
+    image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-16-at-10.11.19-PM-1.jpeg",
     href: "#goods",
   },
 ];

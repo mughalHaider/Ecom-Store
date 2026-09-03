@@ -15,6 +15,7 @@ import {
   ChevronRight,
   ArrowRight,
 } from "lucide-react";
+import { useCart } from "../context/CartContext";
 
 interface CategoryMenuData {
   allTitle: string;
@@ -63,17 +64,17 @@ const menuData: Record<string, CategoryMenuData> = {
     cards: [
       {
         title: "TRANSITIONAL LAYERS",
-        image: "/products/p1.jpg",
+        image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/Gemini_Generated_Image_1e3nxp1e3nxp1e3n.png",
         href: "#transitional-layers",
       },
       {
         title: "THE CRAFTED COLLECTION",
-        image: "/products/p3.jpg",
+        image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/IMG_1902.JPG-scaled.jpeg",
         href: "#crafted-collection",
         badge: "Crafted",
       },
     ],
-    featuredImage: "/products/p2.jpg",
+    featuredImage: "https://pappyneedles.co.uk/wp-content/uploads/2026/08/IMG_1889.JPG-scaled.jpeg",
   },
   WOMENS: {
     allTitle: "ALL WOMEN'S",
@@ -89,17 +90,17 @@ const menuData: Record<string, CategoryMenuData> = {
     ],
     cards: [
       {
-        title: "AUTUMN ESSENTIALS",
-        image: "/products/p4.jpg",
-        href: "#autumn-essentials",
+        title: "CULTURE CO-ORD SET",
+        image: "https://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-15-at-6.32.56-PM.jpeg",
+        href: "#coord-set",
       },
       {
-        title: "HEAVYWEIGHT KNITS",
-        image: "/products/p5.jpg",
-        href: "#knits",
+        title: "ADIRE RUFFLE SET",
+        image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-15-at-7.07.12-PM-1.jpeg",
+        href: "#adire-ruffle",
       },
     ],
-    featuredImage: "/products/p6.jpg",
+    featuredImage: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-15-at-6.32.56-PM-2.jpeg",
   },
   GOODS: {
     allTitle: "ALL GOODS",
@@ -115,16 +116,16 @@ const menuData: Record<string, CategoryMenuData> = {
     cards: [
       {
         title: "CANVAS & LEATHER PACKS",
-        image: "/products/p7.jpg",
+        image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-16-at-10.11.19-PM-1.jpeg",
         href: "#packs",
       },
       {
-        title: "P&CO COFFEE & PROVISIONS",
-        image: "/products/p8.jpg",
+        title: "TRADITIONAL FILA CAPS",
+        image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-16-at-10.11.31-PM.jpeg",
         href: "#provisions",
       },
     ],
-    featuredImage: "/products/p9.jpg",
+    featuredImage: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/WhatsApp-Image-2026-08-16-at-10.11.20-PM.jpeg",
   },
   SALE: {
     allTitle: "ALL SALE ITEMS",
@@ -138,20 +139,21 @@ const menuData: Record<string, CategoryMenuData> = {
     cards: [
       {
         title: "UP TO 40% OFF OUTERWEAR",
-        image: "/products/p10.jpg",
+        image: "http://pappyneedles.co.uk/wp-content/uploads/2026/08/Gemini_Generated_Image_awan4lawan4lawan.png",
         href: "#outerwear-sale",
       },
       {
         title: "ARCHIVE SALE DROP",
-        image: "/products/p11.jpg",
+        image: "https://pappyneedles.co.uk/wp-content/uploads/2026/08/Gemini_Generated_Image_7ki52w7ki52w7ki5.png",
         href: "#archive-sale",
       },
     ],
-    featuredImage: "/products/p12.jpg",
+    featuredImage: "https://pappyneedles.co.uk/wp-content/uploads/2026/08/Gemini_Generated_Image_nxqu3fnxqu3fnxqu.png",
   },
 };
 
 export default function Navbar() {
+  const { openCart, cartCount } = useCart();
   const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
@@ -205,16 +207,23 @@ export default function Navbar() {
           >
             <UserRound size={22} strokeWidth={1.5} />
           </button>
-          <div className="relative p-1 cursor-pointer group">
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={`Open shopping bag (${cartCount} items)`}
+            className="relative p-1 cursor-pointer group"
+          >
             <ShoppingBag
               size={22}
               strokeWidth={1.5}
               className="text-white group-hover:text-[#c28b5b] transition-colors"
             />
-            <span className="absolute -top-1 -right-1.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#a27b53] text-[10.5px] font-bold text-white shadow-xs">
-              2
-            </span>
-          </div>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1.5 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-[#a27b53] text-[10.5px] font-bold text-white shadow-xs">
+                {cartCount}
+              </span>
+            )}
+          </button>
         </div>
       </nav>
 
@@ -478,17 +487,24 @@ export default function Navbar() {
                 <UserRound size={19} strokeWidth={1.5} />
               </button>
 
-              <div className="relative cursor-pointer hover:text-[#8f6f4d] transition-colors group">
+              <button
+                type="button"
+                onClick={openCart}
+                aria-label={`Open shopping bag (${cartCount} items)`}
+                className="relative cursor-pointer hover:text-[#8f6f4d] transition-colors group p-0.5"
+              >
                 <ShoppingBag size={19} strokeWidth={1.5} />
-                <span
-                  className={`absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold ${isMenuOpen
-                    ? "bg-black text-white"
-                    : "bg-[#a27b53] text-white"
-                    }`}
-                >
-                  2
-                </span>
-              </div>
+                {cartCount > 0 && (
+                  <span
+                    className={`absolute -top-2 -right-2 flex h-4 w-4 items-center justify-center rounded-full text-[9px] font-bold ${isMenuOpen
+                      ? "bg-black text-white"
+                      : "bg-[#a27b53] text-white"
+                      }`}
+                  >
+                    {cartCount}
+                  </span>
+                )}
+              </button>
             </div>
           </div>
         </div>

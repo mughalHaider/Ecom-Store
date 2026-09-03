@@ -16,7 +16,7 @@ const articles: LookbookArticle[] = [
   {
     id: 1,
     title: "AUTUMN STYLING",
-    image: "/carousel/slider1.jpg",
+    image: "https://pappyneedles.co.uk/wp-content/uploads/2026/03/IMG-20260301-WA0059.jpg",
     href: "#autumn-styling",
     description:
       "We took our latest autumn collection to the streets of London, shooting just around the corner from our Spitalfields store to show the collection as it was designed to be worn. Styled in layers and brought together through different textures, colours and shapes, the shoot puts the collection into action......",
@@ -24,7 +24,7 @@ const articles: LookbookArticle[] = [
   {
     id: 2,
     title: "MT. REGENT NATURE RESERVE",
-    image: "/carousel/slider2.jpg",
+    image: "https://pappyneedles.co.uk/wp-content/uploads/2026/01/IMG-20260120-WA0022.jpg",
     href: "#mt-regent",
     description:
       "28.08.26 | Our autumn collection takes inspiration from the landscapes of the great outdoors. Taking its roots from heritage workwear and traditional outdoor clothing, it brings together hardwearing ripstop, waxed canvas, heavyweight denim, brushed flannel and textured knits, built around the layers needed as the seasons change....",
@@ -32,7 +32,7 @@ const articles: LookbookArticle[] = [
   {
     id: 3,
     title: "P&CO SAILING CLUB",
-    image: "/carousel/slider3.jpg",
+    image: "https://pappyneedles.co.uk/wp-content/uploads/2026/01/IMG-20260120-WA00731.jpg",
     href: "#sailing-club",
     description:
       "31.07.26 | This collection marks the transition into the months ahead. Still inspired by the coast, this campaign moves beyond summer, introducing hardwearing canvas, hickory stripe, heavyweight denim and soft flannel alongside lighter transitional layers designed to carry you into the new season....",

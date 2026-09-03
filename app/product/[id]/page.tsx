@@ -10,6 +10,7 @@ import type { Swiper as SwiperType } from "swiper";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
+import { useCart } from "../../context/CartContext";
 
 export default function ProductDetailPage({
   params,
@@ -20,11 +21,15 @@ export default function ProductDetailPage({
   const product = getProductById(Number(id));
 
   const [activeImg, setActiveImg] = useState(0);
-  const [selectedSize, setSelectedSize] = useState<string | null>(null);
+  const [selectedSize, setSelectedSize] = useState<string | null>(
+    product?.sizes && product.sizes.length === 1 ? product.sizes[0] : null
+  );
   const [isSaved, setIsSaved] = useState(false);
   const [qty, setQty] = useState(1);
   const [innerSwiper, setInnerSwiper] = useState<SwiperType | null>(null);
   const [addedToCart, setAddedToCart] = useState(false);
+
+  const { addToCart, openCart, cartCount } = useCart();
 
   if (!product) {
     return (
@@ -53,6 +58,16 @@ export default function ProductDetailPage({
   const handleAddToCart = () => {
     if (!selectedSize) return;
     setAddedToCart(true);
+    addToCart({
+      id: `${product.id}-${selectedSize}`,
+      productId: product.id,
+      title: product.title,
+      price: parseFloat(product.price.replace(/[^\d.]/g, "")) || 95,
+      image: product.images[0],
+      size: selectedSize,
+      style: "STANDARD",
+      quantity: qty,
+    });
     setTimeout(() => setAddedToCart(false), 2200);
   };
 
@@ -86,13 +101,29 @@ export default function ProductDetailPage({
           </span>
         </Link>
 
-        <button
-          type="button"
-          onClick={() => setIsSaved(!isSaved)}
-          className={`w-7 h-7 rounded-full border border-black flex items-center justify-center transition-all cursor-pointer ${isSaved ? "bg-black text-white" : "bg-transparent text-black hover:bg-black hover:text-white"}`}
-        >
-          <Bookmark size={13} strokeWidth={1.8} className={isSaved ? "fill-white" : ""} />
-        </button>
+        <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => setIsSaved(!isSaved)}
+            aria-label="Save product"
+            className={`w-7 h-7 rounded-full border border-black flex items-center justify-center transition-all cursor-pointer ${isSaved ? "bg-black text-white" : "bg-transparent text-black hover:bg-black hover:text-white"}`}
+          >
+            <Bookmark size={13} strokeWidth={1.8} className={isSaved ? "fill-white" : ""} />
+          </button>
+          <button
+            type="button"
+            onClick={openCart}
+            aria-label={`Open shopping bag (${cartCount} items)`}
+            className="relative w-7 h-7 rounded-full border border-black flex items-center justify-center transition-all cursor-pointer hover:bg-black hover:text-white text-black group"
+          >
+            <ShoppingBag size={13} strokeWidth={1.8} />
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#a27b53] text-[8px] font-bold text-white shadow-xs">
+                {cartCount}
+              </span>
+            )}
+          </button>
+        </div>
       </div>
 
       {/* ─── Breadcrumb ─── */}
@@ -112,48 +143,77 @@ export default function ProductDetailPage({
 
           {/* ── Left: Image Gallery ── */}
           <div className="flex flex-col gap-4">
-            {/* Main Image Swiper */}
+            {/* Main Image Gallery */}
             <div className="relative aspect-[3/4] w-full bg-stone-200 border border-black overflow-hidden">
-              <Swiper
-                modules={[Navigation]}
-                allowTouchMove={true}
-                slidesPerView={1}
-                speed={350}
-                onSwiper={setInnerSwiper}
-                onSlideChange={(swiper) => setActiveImg(swiper.activeIndex)}
-                className="w-full h-full"
-              >
-                {product.images.map((imgSrc, idx) => (
-                  <SwiperSlide key={idx} className="relative w-full h-full">
-                    <Image
-                      src={imgSrc}
-                      alt={`${product.title} — view ${idx + 1}`}
-                      fill
-                      priority={idx === 0}
-                      className="object-cover object-top"
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                    />
-                  </SwiperSlide>
-                ))}
-              </Swiper>
+              {product.images.length > 1 ? (
+                <Swiper
+                  modules={[Navigation]}
+                  allowTouchMove={true}
+                  slidesPerView={1}
+                  speed={350}
+                  onSwiper={setInnerSwiper}
+                  onSlideChange={(swiper) => setActiveImg(swiper.activeIndex)}
+                  className="w-full h-full"
+                >
+                  {product.images.map((imgSrc, idx) => (
+                    <SwiperSlide key={idx} className="relative w-full h-full">
+                      <Image
+                        src={imgSrc}
+                        alt={`${product.title} — view ${idx + 1}`}
+                        fill
+                        priority={idx === 0}
+                        className="object-cover object-top"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              ) : (
+                <div className="relative w-full h-full">
+                  <Image
+                    src={product.images[0]}
+                    alt={product.title}
+                    fill
+                    priority
+                    className="object-cover object-top"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                  />
+                </div>
+              )}
 
-              {/* Prev/Next Arrows */}
-              <button
-                type="button"
-                onClick={handlePrev}
-                disabled={activeImg === 0}
-                className={`absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full border border-black bg-white/90 flex items-center justify-center transition-all ${activeImg === 0 ? "opacity-20 cursor-not-allowed" : "opacity-80 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"}`}
-              >
-                <ChevronLeft size={16} strokeWidth={2} />
-              </button>
-              <button
-                type="button"
-                onClick={handleNext}
-                disabled={activeImg === product.images.length - 1}
-                className={`absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full border border-black bg-white/90 flex items-center justify-center transition-all ${activeImg === product.images.length - 1 ? "opacity-20 cursor-not-allowed" : "opacity-80 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"}`}
-              >
-                <ChevronRight size={16} strokeWidth={2} />
-              </button>
+              {/* Prev/Next Arrows - Only displayed if more than one image */}
+              {product.images.length > 1 && (
+                <>
+                  <button
+                    type="button"
+                    onClick={handlePrev}
+                    disabled={activeImg === 0}
+                    className={`absolute left-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full border border-black bg-white/90 flex items-center justify-center transition-all ${activeImg === 0 ? "opacity-20 cursor-not-allowed" : "opacity-80 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"}`}
+                  >
+                    <ChevronLeft size={16} strokeWidth={2} />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleNext}
+                    disabled={activeImg === product.images.length - 1}
+                    className={`absolute right-3 top-1/2 -translate-y-1/2 z-20 w-8 h-8 rounded-full border border-black bg-white/90 flex items-center justify-center transition-all ${activeImg === product.images.length - 1 ? "opacity-20 cursor-not-allowed" : "opacity-80 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"}`}
+                  >
+                    <ChevronRight size={16} strokeWidth={2} />
+                  </button>
+
+                  {/* Dot Indicator */}
+                  <div className="absolute bottom-3 inset-x-0 z-20 flex justify-center gap-1.5">
+                    {product.images.map((_, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => { innerSwiper?.slideTo(idx); }}
+                        className={`h-[2.5px] w-7 transition-all cursor-pointer ${activeImg === idx ? "bg-black" : "bg-black/25 hover:bg-black/50"}`}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
 
               {/* Badges */}
               <div className="absolute top-3 left-3 z-20 flex gap-1.5">
@@ -168,39 +228,29 @@ export default function ProductDetailPage({
                   </span>
                 )}
               </div>
+            </div>
 
-              {/* Dot Indicator */}
-              <div className="absolute bottom-3 inset-x-0 z-20 flex justify-center gap-1.5">
-                {product.images.map((_, idx) => (
+            {/* Thumbnail Tray - Only displayed if more than one image */}
+            {product.images.length > 1 && (
+              <div className="flex gap-2">
+                {product.images.map((imgSrc, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => { innerSwiper?.slideTo(idx); }}
-                    className={`h-[2.5px] w-7 transition-all cursor-pointer ${activeImg === idx ? "bg-black" : "bg-black/25 hover:bg-black/50"}`}
-                  />
+                    onClick={() => { innerSwiper?.slideTo(idx); setActiveImg(idx); }}
+                    className={`relative flex-1 aspect-[3/4] border overflow-hidden transition-all cursor-pointer ${activeImg === idx ? "border-black" : "border-black/20 opacity-60 hover:opacity-90"}`}
+                  >
+                    <Image
+                      src={imgSrc}
+                      alt={`Thumbnail ${idx + 1}`}
+                      fill
+                      className="object-cover object-top"
+                      sizes="15vw"
+                    />
+                  </button>
                 ))}
               </div>
-            </div>
-
-            {/* Thumbnail Tray */}
-            <div className="flex gap-2">
-              {product.images.map((imgSrc, idx) => (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => { innerSwiper?.slideTo(idx); setActiveImg(idx); }}
-                  className={`relative flex-1 aspect-[3/4] border overflow-hidden transition-all cursor-pointer ${activeImg === idx ? "border-black" : "border-black/20 opacity-60 hover:opacity-90"}`}
-                >
-                  <Image
-                    src={imgSrc}
-                    alt={`Thumbnail ${idx + 1}`}
-                    fill
-                    className="object-cover object-top"
-                    sizes="15vw"
-                  />
-                </button>
-              ))}
-            </div>
+            )}
           </div>
 
           {/* ── Right: Product Details ── */}

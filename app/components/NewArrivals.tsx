@@ -12,128 +12,16 @@ import { Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 
-interface ProductItem {
-  id: number;
-  title: string;
-  category: "mens" | "womens";
-  price: string;
-  isNew?: boolean;
-  isTrending?: boolean;
-  images: [string, string, string]; // 3 images per product
-}
+import { allProducts, type ProductItem } from "../lib/products";
 
-// Products using images from public/products/
-const productsData: ProductItem[] = [
-  {
-    id: 1,
-    title: "HAWTHORNE SHIRT - BROWN PLAID",
-    category: "mens",
-    price: "£90",
-    isNew: true,
-    isTrending: true,
-    images: [
-      "/products/p1.jpg",
-      "/products/p2.jpg",
-      "/products/p3.jpg",
-    ],
-  },
-  {
-    id: 2,
-    title: "BELLA REVERSIBLE MINI DENIM DRESS",
-    category: "womens",
-    price: "£95",
-    isNew: true,
-    isTrending: true,
-    images: [
-      "/products/p4.jpg",
-      "/products/p5.jpg",
-      "/products/p6.jpg",
-    ],
-  },
-  {
-    id: 3,
-    title: "P&CO OVERSIZED DOUBLE ZIP HOODIE",
-    category: "mens",
-    price: "£100",
-    isNew: true,
-    isTrending: false,
-    images: [
-      "/products/p7.jpg",
-      "/products/p8.jpg",
-      "/products/p9.jpg",
-    ],
-  },
-  {
-    id: 4,
-    title: "YAMA DENIM SMOCK JACKET",
-    category: "womens",
-    price: "£120",
-    isNew: true,
-    isTrending: true,
-    images: [
-      "/products/p10.jpg",
-      "/products/p11.jpg",
-      "/products/p12.jpg",
-    ],
-  },
-  {
-    id: 5,
-    title: "VINTAGE WASH CHORE COAT",
-    category: "mens",
-    price: "£135",
-    isNew: true,
-    isTrending: false,
-    images: [
-      "/products/p13.jpg",
-      "/products/p14.jpg",
-      "/products/p15.jpg",
-    ],
-  },
-  {
-    id: 6,
-    title: "YAMA BALLOON DENIM PANT",
-    category: "womens",
-    price: "£95",
-    isNew: true,
-    isTrending: true,
-    images: [
-      "/products/p16.jpg",
-      "/products/p17.jpg",
-      "/products/p18.jpg",
-    ],
-  },
-  {
-    id: 7,
-    title: "FIELD HEAVYWEIGHT CANVAS JACKET",
-    category: "mens",
-    price: "£145",
-    isNew: false,
-    isTrending: true,
-    images: [
-      "/products/p19.jpg",
-      "/products/p20.jpg",
-      "/products/p21.jpg",
-    ],
-  },
-  {
-    id: 8,
-    title: "CLASSIC UTILITY WORKSHIRT",
-    category: "womens",
-    price: "£85",
-    isNew: false,
-    isTrending: true,
-    images: [
-      "/products/p22.jpg",
-      "/products/p23.jpg",
-      "/products/p24.jpg",
-    ],
-  },
-];
+const productsData: ProductItem[] = allProducts;
 
 function ProductCard({ product }: { product: ProductItem }) {
   const [activeImgIdx, setActiveImgIdx] = useState(0);
   const [isSaved, setIsSaved] = useState(false);
   const [innerSwiper, setInnerSwiper] = useState<SwiperType | null>(null);
+
+  const hasMultipleImages = Boolean(product.images && product.images.length > 1);
 
   const handlePrev = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -161,8 +49,8 @@ function ProductCard({ product }: { product: ProductItem }) {
 
   return (
     <div className="group relative flex flex-col h-full bg-white border-r border-black select-none">
-      {/* Product 3-Image Slider Area */}
-      <div className="relative flex-1 w-full bg-[#f4f3f0] overflow-hidden">
+      {/* Product Image / Slider Area */}
+      <div className="relative flex-1 w-full bg-[#f4f3f0] overflow-hidden min-h-[300px]">
         {/* Top Badges */}
         <div className="absolute top-2.5 left-2.5 z-20 flex items-center gap-1.5 pointer-events-none">
           {product.isNew && (
@@ -194,70 +82,86 @@ function ProductCard({ product }: { product: ProductItem }) {
           <Bookmark size={11} strokeWidth={1.8} className={isSaved ? "fill-white" : ""} />
         </button>
 
-        {/* 3-Image Inner Swiper (allowTouchMove disabled so outer horizontal scroll is fluid) */}
-        <Swiper
-          modules={[Navigation]}
-          allowTouchMove={false}
-          slidesPerView={1}
-          speed={300}
-          onSwiper={setInnerSwiper}
-          onSlideChange={(swiper) => setActiveImgIdx(swiper.activeIndex)}
-          className="w-full h-full"
-        >
-          {product.images.map((imgSrc, idx) => (
-            <SwiperSlide key={idx} className="relative w-full h-full min-h-[300px]">
-              <Image
-                src={imgSrc}
-                alt={`${product.title} view ${idx + 1}`}
-                fill
-                className="object-cover object-top"
-                sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 25vw"
-              />
-            </SwiperSlide>
-          ))}
-        </Swiper>
-
-        {/* Left / Right Inner Chevrons - ALWAYS DISPLAYED */}
-        <button
-          type="button"
-          aria-label="Previous image"
-          onClick={handlePrev}
-          disabled={activeImgIdx === 0}
-          className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white/90 border border-black/30 flex items-center justify-center text-black shadow-xs transition-all ${activeImgIdx === 0
-            ? "opacity-25 cursor-not-allowed"
-            : "opacity-85 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"
-            }`}
-        >
-          <ChevronLeft size={14} strokeWidth={2} />
-        </button>
-        <button
-          type="button"
-          aria-label="Next image"
-          onClick={handleNext}
-          disabled={activeImgIdx === product.images.length - 1}
-          className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white/90 border border-black/30 flex items-center justify-center text-black shadow-xs transition-all ${activeImgIdx === product.images.length - 1
-            ? "opacity-25 cursor-not-allowed"
-            : "opacity-85 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"
-            }`}
-        >
-          <ChevronRight size={14} strokeWidth={2} />
-        </button>
-
-        {/* 3-Segment Dash Indicator at Bottom of Image */}
-        <div className="absolute bottom-2 inset-x-0 z-20 flex justify-center items-center gap-1.5">
-          {product.images.map((_, idx) => (
-            <button
-              key={idx}
-              type="button"
-              aria-label={`Jump to slide ${idx + 1}`}
-              onClick={(e) => goToSlide(e, idx)}
-              className={`h-[2.5px] cursor-pointer transition-all duration-200 ${activeImgIdx === idx
-                ? "w-7 bg-black"
-                : "w-7 bg-black/25 hover:bg-black/50"
-                }`}
+        {/* Image Display: Swiper slider only if more than 1 image, otherwise static single image */}
+        {hasMultipleImages ? (
+          <Swiper
+            modules={[Navigation]}
+            allowTouchMove={false}
+            slidesPerView={1}
+            speed={300}
+            onSwiper={setInnerSwiper}
+            onSlideChange={(swiper) => setActiveImgIdx(swiper.activeIndex)}
+            className="w-full h-full"
+          >
+            {product.images.map((imgSrc, idx) => (
+              <SwiperSlide key={idx} className="relative w-full h-full min-h-[300px]">
+                <Image
+                  src={imgSrc}
+                  alt={`${product.title} view ${idx + 1}`}
+                  fill
+                  className="object-cover object-top"
+                  sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 25vw"
+                />
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        ) : (
+          <div className="relative w-full h-full min-h-[300px]">
+            <Image
+              src={product.images[0] || "/products/p1.jpg"}
+              alt={product.title}
+              fill
+              className="object-cover object-top"
+              sizes="(max-width: 640px) 75vw, (max-width: 1024px) 35vw, 25vw"
             />
-          ))}
-        </div>
+          </div>
+        )}
+
+        {/* Controls: Left/Right Chevrons & Dash Indicators ONLY displayed if more than one image */}
+        {hasMultipleImages && (
+          <>
+            <button
+              type="button"
+              aria-label="Previous image"
+              onClick={handlePrev}
+              disabled={activeImgIdx === 0}
+              className={`absolute left-2 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white/90 border border-black/30 flex items-center justify-center text-black shadow-xs transition-all ${activeImgIdx === 0
+                ? "opacity-25 cursor-not-allowed"
+                : "opacity-85 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"
+                }`}
+            >
+              <ChevronLeft size={14} strokeWidth={2} />
+            </button>
+            <button
+              type="button"
+              aria-label="Next image"
+              onClick={handleNext}
+              disabled={activeImgIdx === product.images.length - 1}
+              className={`absolute right-2 top-1/2 -translate-y-1/2 z-20 w-6 h-6 rounded-full bg-white/90 border border-black/30 flex items-center justify-center text-black shadow-xs transition-all ${activeImgIdx === product.images.length - 1
+                ? "opacity-25 cursor-not-allowed"
+                : "opacity-85 hover:opacity-100 hover:bg-black hover:text-white cursor-pointer"
+                }`}
+            >
+              <ChevronRight size={14} strokeWidth={2} />
+            </button>
+
+            {/* Dash Indicator at Bottom of Image */}
+            <div className="absolute bottom-2 inset-x-0 z-20 flex justify-center items-center gap-1.5">
+              {product.images.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  aria-label={`Jump to slide ${idx + 1}`}
+                  onClick={(e) => goToSlide(e, idx)}
+                  className={`h-[2.5px] cursor-pointer transition-all duration-200 ${activeImgIdx === idx
+                    ? "w-7 bg-black"
+                    : "w-7 bg-black/25 hover:bg-black/50"
+                    }`}
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Product Information Card Footer */}
